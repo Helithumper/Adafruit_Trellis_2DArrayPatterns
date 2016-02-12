@@ -1,25 +1,34 @@
-#include <Adafruit_Trellis.h>
-#include <Wire.h>
+#include <Wire.h>;
+
+#include <Adafruit_Trellis.h>;
+
+
+
 
 Adafruit_Trellis trellis = Adafruit_Trellis();
-#define NUMTRELLIS 1
-#define numKeys (NUMTRELLIS*16);
+
 
 int board[4][4]= {
-  {0,1,2,3},{4,5,6,7},{8,9,10,11},{12,13,14,15}};
+  {0,1,2,3},
+  {4,5,6,7},
+  {8,9,10,11},
+  {12,13,14,15}
+};
 
 void setup() {
   Serial.begin(9600);
   Serial.println("2dArray Demo");
 
   trellis.begin(0x70);
-  
-  for (uint8_t i=0; i<numKeys; i++) {
+
+
+  //Trellis Test Pattern
+  for (int i=0; i<16; i++) {
     trellis.setLED(i);
     trellis.writeDisplay();    
     delay(50);
   }
-  for (uint8_t i=0; i<numKeys; i++) {
+  for(int i=0; i<16; i++) {
     trellis.clrLED(i);
     trellis.writeDisplay();    
     delay(50);
@@ -27,29 +36,19 @@ void setup() {
 
 }
 
-void loop() {
-  pattern1();
-  delay(2000);
-  pattern2();
-  delay(2000);
-  pattern3();
-  delay(2000);
-  pattern4();
-  delay(2000);
-  pattern5();
-  delay(2000);
-  pattern6();
-  delay(2000);
-}
 
+
+
+//Clears the Trellis Display
 void clearPanel(){
-  for(int i = 0 ;i < numKeys; i++){
+  for(int i = 0 ;i < 16; i++){
     trellis.clrLED(i);
     trellis.writeDisplay();
   }
 }
 
-void setPixel(int i, int j);
+//Converts (i,j) coordinates to the 0-15 system that the trellis recognizes
+void setPixel(int i, int j){
   trellis.setLED(4*i+j);
 }
 
@@ -117,4 +116,25 @@ void pattern6(){
       }
     }
   }
+}
+
+void loop() {
+  //First Diagonal
+  pattern1();
+  delay(2000);
+  //Second Diagonal
+  pattern2();
+  delay(2000);
+  //First Horizontal
+  pattern3();
+  delay(2000);
+  //Second Horizontal
+  pattern4();
+  delay(2000);
+  //First Vertical
+  pattern5();
+  delay(2000);
+  //Second Vertical
+  pattern6();
+  delay(2000);
 }
